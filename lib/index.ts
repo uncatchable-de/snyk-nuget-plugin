@@ -1,6 +1,7 @@
 import * as nugetParser from './nuget-parser';
 import * as path from 'path';
 import * as paketParser from 'snyk-paket-parser';
+import * as debugModule from 'debug';
 import { ManifestType } from './nuget-parser/types';
 import { legacyPlugin as pluginApi } from '@snyk/cli-interface';
 import {
@@ -9,6 +10,8 @@ import {
   InvalidTargetFile,
 } from './errors';
 import { MultiProjectResult } from '@snyk/cli-interface/legacy/plugin';
+
+const debug = debugModule('snyk');
 
 function determineManifestType(filename: string): ManifestType {
   switch (true) {
@@ -92,7 +95,7 @@ export async function inspect(
       );
     }
 
-    console.log(`
+    debug(`
 \x1b[33m⚠ WARNING\x1b[0m: Testing a .NET project with runtime resolution enabled. 
 This should be considered experimental and not relied upon for production use.
 Please report issues with this beta feature by submitting a support ticket, and attach the output of running this command
